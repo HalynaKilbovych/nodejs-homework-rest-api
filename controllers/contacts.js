@@ -1,4 +1,4 @@
-const contacts = require('../models/contacts');
+const Contact = require('../models/contact'); 
 const {HttpError, ctrlWrapper} = require('../utils');
 
 const getAllContacts = async (req, res) => {
@@ -16,7 +16,7 @@ const getContactById = async (req, res) => {
   }
 
 const addContact = async (req, res) => { 
-      const result = await contacts.addContact(req.body); 
+      const result = await Contact.create(req.body); 
       res.status(201).json(result); 
   }
 
