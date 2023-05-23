@@ -1,6 +1,5 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken'); 
-
 const {User} = require('../models/user'); 
 const {HttpError, ctrlWrapper} = require('../utils');
 const {SECRET_KEY} = process.env; 
@@ -37,14 +36,30 @@ const login = async(req, res) => {
     }
     const token = jwt.sign(payload, SECRET_KEY, {expiresIn: '10d'});
 
-    res.json({ 
-        token, 
-    })
-
+    res.json({token})
 }
+
+const getCurrent = async (req, res) => {
+    const { email, subscription } = req.user;
+
+    res.json({ email, subscription });
+}
+
+const logout = async (req, res) => {
+    const { _id } = req.user;
+    await User.findByIdAndUpdate(_id, { token: '' });
+  
+    res.json({
+      message: 'Logout success',
+    });
+  };
+
 module.exports = { 
     register: ctrlWrapper(register), 
     login: ctrlWrapper(login),
+    logout: ctrlWrapper(logout),
+    getCurrent, 
+
 }
 
 

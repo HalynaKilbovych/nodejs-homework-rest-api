@@ -3,7 +3,26 @@ const {HttpError, ctrlWrapper} = require('../utils');
 
 const getAllContacts = async (req, res) => {
   const { _id: owner } = req.user;
-  const result = await Contact.find({owner}, '-createdAt -updatedAt').populate("owner", "email phone");
+  const { page = 1, limit = 5, favorite, name, email } = req.query;
+  const skip = (page - 1) * limit;
+
+  const filter = { owner };
+  if (favorite !== undefined) {
+    filter.favorite = favorite;
+  }
+
+  if (name !== undefined) {
+    filter.name = name;
+  }
+
+  if (email !== undefined) {
+    filter.email = email;
+  }
+
+  const result = await Contact.find(filter, "-createdAt -updatedAt", {
+    skip,
+    limit,
+  }).populate("owner", "email phone");
   res.json(result);
 };
 
