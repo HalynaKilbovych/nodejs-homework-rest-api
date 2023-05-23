@@ -5,7 +5,9 @@ const {schemas} = require('../../models/contact');
 
 const router = express.Router();
 
-router.get('/', ctrl.getAllContacts); 
+const authenticate = require('../../middlewares/authenticate'); 
+
+router.get('/', authenticate, ctrl.getAllContacts); 
 
 router.get('/:contactId', isValidId, ctrl.getContactById); 
 
