@@ -7,7 +7,7 @@ const router = express.Router();
  
 router.get('/', authenticate, ctrl.getAllContacts); 
 
-router.get('/:contactId', authenticate, isValidId, ctrl.getContactById); 
+router.get('/:contactId', authenticate, isValidId, ctrl.getOneContact); 
 
 router.post('/',authenticate,  validateBody(schemas.addSchema), ctrl.addContact); 
 

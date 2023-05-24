@@ -26,10 +26,10 @@ const getAllContacts = async (req, res) => {
   res.json(result);
 };
 
-const getContactById = async (req, res) => {
+const getOneContact = async (req, res) => {
   const { contactId } = req.params;
   const { _id: owner } = req.user;
-  const result = await Contact.findById({ _id: contactId, owner }); 
+  const result = await Contact.findOne({ _id: contactId, owner }); 
     if(!result) { 
       throw HttpError(404)
     }
@@ -77,7 +77,7 @@ const updateStatusContact = async (req, res) => {
 
   module.exports = { 
     getAllContacts: ctrlWrapper(getAllContacts),
-    getContactById: ctrlWrapper(getContactById),
+    getOneContact: ctrlWrapper(getOneContact),
     addContact: ctrlWrapper(addContact),
     deleteContact: ctrlWrapper(deleteContact), 
     updateContact: ctrlWrapper(updateContact),
